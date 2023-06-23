@@ -1,6 +1,7 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 
 const YMLMovieSuggest = ({ title, rating, image }) => {
+  console.log(image);
   return (
     <View style={styles.popularMovie}>
       <Image style={styles.popularImages} source={{ uri: image }} />
@@ -44,24 +45,21 @@ const styles = StyleSheet.create({
   containerDataMovie: {
     position: "absolute",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
-    top: 101,
+    top: 98,
     left: 25,
     paddingHorizontal: 30,
     borderRadius: 15,
     display: "flex",
     justifyContent: "space-between",
-    height: 28,
+    height: 32,
     width: 110,
   },
   titlePopularMovie: {
     color: "#fff",
-    position: "absolute",
-    fontSize: 8,
-    top: 2,
-    right: 22,
+    fontSize: 7,
   },
   blurContainer: {
-    backgroundColor: "rgba(240, 240, 240, 0.2)",
+    backgroundColor: "rgba(125, 125, 125, 0.75)",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -70,15 +68,13 @@ const styles = StyleSheet.create({
   },
   ratingPopularMovie: {
     color: "#fff",
-    fontSize: 8,
+    fontSize: 7,
     marginLeft: 2,
   },
   containerRatingPopularMovie: {
     flexDirection: "row",
     alignItems: "center",
-    position: "absolute",
-    top: 14,
-    left: -21,
+    marginTop: -0.5,
   },
   circleWhite: {
     width: 20,
@@ -99,6 +95,12 @@ const styles = StyleSheet.create({
   imageYML: {
     width: 5,
     height: 5,
+  },
+  columnPopularData: {
+    position: "absolute",
+    width: "140%",
+    right: 30,
+    top: 2.5,
   },
 });
 

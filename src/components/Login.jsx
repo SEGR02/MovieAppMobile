@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,59 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Button,
 } from "react-native";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
+import { useDispatch } from "react-redux";
+import { loginUser, setAuth } from "../store/slices/auth.slice";
+import axios from "axios";
+import { setIsLoading } from "../store/slices/isLoading.slice";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const submit = () => {
+    try {
+      const credentials = {
+        email: email,
+        password: password,
+      };
+      axios
+        .post(
+          `https://ecommerce-academlo-sebas.onrender.com/api/v1/auth/login`,
+          credentials,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          // dispatch(setAuth(res.data));
+          navigate("/home");
+        })
+        .finally(() => dispatch(setIsLoading(false)))
+        .catch((error) =>
+          error.response.state == 400
+            ? alert("Something wrong")
+            : alert(error.response.data.message)
+        );
+      // dispatch(loginUser(credentials));
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.section1}>
-        <Link to="/home">
+        <Link to="/register">
           <View style={styles.backArrow}>
             <Image
               style={styles.arrow}
@@ -33,31 +76,47 @@ const Login = () => {
         </View>
         <View style={styles.containerInputs}>
           <InputSignIn image={require("../assets/apple.png")} />
-          <InputSignIn image={require("../assets/google.png")} />
+          <InputSignIn
+            image={require("../assets/google.png")}
+            value={password}
+          />
         </View>
       </View>
+      {/* <Formik> */}
       <View style={styles.containerInputsText}>
-        <InputText field={"email"} />
-        <InputText field={"password"} />
-        <LinearGradient
-          style={styles.button}
-          colors={[
-            // "#a47160",
-            // "#ad7660",
-            // "#FF722A",
-            // "#ba7a60",
-            // "#cd8260",
-            "#f3915f",
-            "#fe955f",
-          ]}
-        >
-          <Text style={styles.textButton}>Log in</Text>
-        </LinearGradient>
+        <InputText
+          field={"email"}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <InputText
+          field={"password"}
+          secureTextEntry
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <TouchableOpacity onPress={() => submit()}>
+          <LinearGradient
+            style={styles.button}
+            colors={[
+              // "#a47160",
+              // "#ad7660",
+              // "#FF722A",
+              // "#ba7a60",
+              // "#cd8260",
+              "#f3915f",
+              "#fe955f",
+            ]}
+          >
+            <Text style={styles.textButton}>Log in</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
+      {/* </Formik> */}
       <View style={styles.containerHaveAcc}>
         <Text style={styles.dark}>Don't have an account? </Text>
         <Link to="/register">
-          <Text style={styles.white}>Login</Text>
+          <Text style={styles.white}>Sign up</Text>
         </Link>
       </View>
     </View>
@@ -74,16 +133,16 @@ const InputSignIn = ({ image }) => {
   );
 };
 
-const InputText = ({ field }) => {
+const InputText = ({ field, ...props }) => {
   if (field == "password")
     return (
       <View>
         <Text style={styles.titleInput}>{field}</Text>
         <TextInput
-          secureTextEntry
           placeholderTextColor={"#9C9C9C"}
           style={styles.inputText}
           placeholder={`Enter your ${field}`}
+          {...props}
         />
       </View>
     );
@@ -94,6 +153,7 @@ const InputText = ({ field }) => {
         placeholderTextColor={"#9C9C9C"}
         style={styles.inputText}
         placeholder={`Enter your ${field}`}
+        {...props}
       />
     </View>
   );
@@ -185,6 +245,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 18,
     fontWeight: "700",
+    // backgroundColor: "white",
+    // width: "100%",
+    // height: 25,
   },
   containerHaveAcc: {
     flexDirection: "row",

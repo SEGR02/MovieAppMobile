@@ -16,21 +16,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllMovies } from "../store/slices/movies.slice";
 
 const Home = () => {
+  const [i, setI] = useState(0);
+  const [category, setCategory] = useState("All");
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.isLoading);
   const movies = useSelector((state) => state?.movies);
   const urlImages = "https://image.tmdb.org/t/p/original";
   console.log(movies);
+  const user2 = useSelector((state) => state.auth);
+  console.log(user2);
 
   useEffect(() => {
     dispatch(getAllMovies());
   }, []);
 
   const user = "Hoang";
-  const id = {
-    title: "hola",
-    sapo: "hpta,",
-  };
 
   if (!isLoading)
     return (
@@ -40,28 +40,65 @@ const Home = () => {
             <Text style={styles.textName}>{`Hi, ${user}`}</Text>
           </View>
           <View style={styles.containerCategories}>
-            <TouchableOpacity style={styles.buttonCategories}>
-              <Text style={styles.textCategories}>All</Text>
-            </TouchableOpacity>
-            <Link to="/register">
-              <Text style={styles.textCategories}>Action</Text>
-            </Link>
-            <TouchableOpacity>
-              <Text style={styles.textCategories}>Comedy</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.textCategories}>Horror</Text>
-            </TouchableOpacity>
+            <TouchableItemsCustom
+              text={"All"}
+              style={
+                category == "All"
+                  ? styles.buttonCategoriesActive
+                  : styles.buttonCategories
+              }
+              onPress={() => {
+                setCategory("All");
+                setI(0);
+              }}
+            />
+            <TouchableItemsCustom
+              text={"Action"}
+              style={
+                category == "Action"
+                  ? styles.buttonCategoriesActive
+                  : styles.buttonCategories
+              }
+              onPress={() => {
+                setCategory("Action");
+                setI(8);
+              }}
+            />
+            <TouchableItemsCustom
+              text={"Comedy"}
+              style={
+                category == "Comedy"
+                  ? styles.buttonCategoriesActive
+                  : styles.buttonCategories
+              }
+              onPress={() => {
+                setCategory("Comedy");
+                setI(16);
+              }}
+            />
+            <TouchableItemsCustom
+              text={"Horror"}
+              style={
+                category == "Horror"
+                  ? styles.buttonCategoriesActive
+                  : styles.buttonCategories
+              }
+              onPress={() => {
+                setCategory("Horror");
+                setI(24);
+              }}
+            />
             <TouchableOpacity>
               <Image
                 style={styles.iconCategorie}
-                source={require("../assets/option.png")}
+                source={require("../assets/Vector.png")}
               />
             </TouchableOpacity>
           </View>
-          <Link to={`/detail/${movies?.results?.[0]?.id}`}>
+          <Link to={`/detail/${movies?.[i]?.id}`}>
             <HomeMainImage
-              image={urlImages + movies?.results?.[0]?.backdrop_path}
+              image={urlImages + movies?.[i]?.backdrop_path}
+              title={movies?.[i]?.original_title}
             />
           </Link>
           <View style={styles.containerTitleSection}>
@@ -73,25 +110,25 @@ const Home = () => {
           </View>
           <View style={styles.containerPopular}>
             <ScrollView horizontal style={styles.scroll}>
-              <Link to={`/detail/${movies?.results?.[1]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 1]?.id}`}>
                 <PopularMovieSuggest
-                  title={movies?.results?.[1]?.original_title}
+                  title={movies?.[i + 1]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[1]?.poster_path}
+                  image={urlImages + movies?.[i + 1]?.poster_path}
                 />
               </Link>
-              <Link to={`/detail/${movies?.results?.[2]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 2]?.id}`}>
                 <PopularMovieSuggest
-                  title={movies?.results?.[2]?.original_title}
+                  title={movies?.[i + 2]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[2]?.poster_path}
+                  image={urlImages + movies?.[i + 2]?.poster_path}
                 />
               </Link>
-              <Link to={`/detail/${movies?.results?.[3]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 3]?.id}`}>
                 <PopularMovieSuggest
-                  title={movies?.results?.[3]?.original_title}
+                  title={movies?.[i + 3]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[3]?.poster_path}
+                  image={urlImages + movies?.[i + 3]?.poster_path}
                 />
               </Link>
             </ScrollView>
@@ -107,43 +144,51 @@ const Home = () => {
           </View>
           <View style={styles.containerPopular}>
             <ScrollView horizontal style={styles.scroll}>
-              <Link to={`/detail/${movies?.results?.[4]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 4]?.id}`}>
                 <YMLMovieSuggest
-                  title={movies?.results?.[4]?.original_title}
+                  title={movies?.[i + 4]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[4]?.poster_path}
+                  image={urlImages + movies?.[i + 4]?.poster_path}
                 />
               </Link>
-              <Link to={`/detail/${movies?.results?.[5]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 5]?.id}`}>
                 <YMLMovieSuggest
-                  title={movies?.results?.[5]?.original_title}
+                  title={movies?.[i + 5]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[5]?.poster_path}
+                  image={urlImages + movies?.[i + 5]?.poster_path}
                 />
               </Link>
-              <Link to={`/detail/${movies?.results?.[6]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 6]?.id}`}>
                 <YMLMovieSuggest
-                  title={movies?.results?.[6]?.original_title}
+                  title={movies?.[i + 6]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[6]?.poster_path}
+                  image={urlImages + movies?.[i + 6]?.poster_path}
                 />
               </Link>
-              <Link to={`/detail/${movies?.results?.[7]?.id}`}>
+              <Link to={`/detail/${movies?.[i + 7]?.id}`}>
                 <YMLMovieSuggest
-                  title={movies?.results?.[7]?.original_title}
+                  title={movies?.[i + 7]?.original_title}
                   rating={4.5}
-                  image={urlImages + movies?.results?.[7]?.poster_path}
+                  image={urlImages + movies?.[i + 7]?.poster_path}
                 />
               </Link>
             </ScrollView>
           </View>
-          <Text></Text>
-          <Text></Text>
-          <Text></Text>
-          <Text></Text>
         </ScrollView>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
       </View>
     );
+};
+
+const TouchableItemsCustom = ({ text, ...props }) => {
+  return (
+    <TouchableOpacity {...props}>
+      <Text style={styles.textCategories}>{text}</Text>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -168,7 +213,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     alignItems: "center",
   },
-  buttonCategories: {
+  buttonCategoriesActive: {
     backgroundColor: "#793b2b",
     paddingVertical: 6,
     paddingHorizontal: 20,

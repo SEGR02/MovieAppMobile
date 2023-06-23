@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,15 +7,56 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setIsLoading } from "../store/slices/isLoading.slice";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const submit = () => {
+    try {
+      const credentials = {
+        email: email,
+        password: password,
+      };
+      axios
+        .post(
+          `https://ecommerce-academlo-sebas.onrender.com/api/v1/auth/register`,
+          credentials,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          // dispatch(setAuth(res.data));
+          navigate("/login");
+          alert("User created");
+        })
+        .finally(() => dispatch(setIsLoading(false)))
+        .catch((error) =>
+          error.response.state == 400
+            ? alert("Something wrong")
+            : alert(error.response.data.message)
+        );
+      // dispatch(loginUser(credentials));
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.section1}>
-        <Link to="/home">
+        <Link to="/login">
           <View style={styles.backArrow}>
             <Image
               style={styles.arrow}
@@ -38,22 +79,32 @@ const Register = () => {
       </View>
       <View style={styles.containerInputsText}>
         <InputText field={"name"} />
-        <InputText field={"email"} />
-        <InputText field={"password"} />
-        <LinearGradient
-          style={styles.button}
-          colors={[
-            // "#a47160",
-            // "#ad7660",
-            // "#FF722A",
-            // "#ba7a60",
-            // "#cd8260",
-            "#f3915f",
-            "#fe955f",
-          ]}
-        >
-          <Text style={styles.textButton}>Create Account</Text>
-        </LinearGradient>
+        <InputText
+          field={"email"}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <InputText
+          field={"password"}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <TouchableOpacity onPress={() => submit()}>
+          <LinearGradient
+            style={styles.button}
+            colors={[
+              // "#a47160",
+              // "#ad7660",
+              // "#FF722A",
+              // "#ba7a60",
+              // "#cd8260",
+              "#f3915f",
+              "#fe955f",
+            ]}
+          >
+            <Text style={styles.textButton}>Create Account</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
       <View style={styles.containerHaveAcc}>
         <Text style={styles.dark}>Already have an account? </Text>
@@ -75,7 +126,7 @@ const InputSignIn = ({ image }) => {
   );
 };
 
-const InputText = ({ field }) => {
+const InputText = ({ field, ...props }) => {
   if (field == "password")
     return (
       <View>
@@ -85,6 +136,7 @@ const InputText = ({ field }) => {
           placeholderTextColor={"#9C9C9C"}
           style={styles.inputText}
           placeholder={`Enter your ${field}`}
+          {...props}
         />
       </View>
     );
@@ -95,6 +147,7 @@ const InputText = ({ field }) => {
         placeholderTextColor={"#9C9C9C"}
         style={styles.inputText}
         placeholder={`Enter your ${field}`}
+        {...props}
       />
     </View>
   );

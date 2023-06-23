@@ -1,11 +1,11 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 import { useSelector } from "react-redux";
 
-const HomeMainImage = ({ image }) => {
+const HomeMainImage = ({ image, title }) => {
   const urlImages = "https://image.tmdb.org/t/p/original";
-  const movies = useSelector((state) => state?.movies?.results?.[0]);
-  console.log(image);
-  if (!image) image = state?.movies?.results?.[0]?.backdrop_path;
+  const movies = useSelector((state) => state?.movies);
+  console.log(movies);
+  if (!image) image = state?.movies?.[i]?.backdrop_path;
 
   return (
     <View style={styles.containerMainImage}>
@@ -21,7 +21,7 @@ const HomeMainImage = ({ image }) => {
           source={require("../assets/Vector(1).png")}
         />
       </View>
-      <Text style={styles.textMainImage}>{movies?.original_title}</Text>
+      <Text style={styles.textMainImage}>{title}</Text>
       <View style={styles.containerRating}>
         <Image
           style={styles.iconStar}

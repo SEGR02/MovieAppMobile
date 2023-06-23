@@ -13,10 +13,20 @@ import { Link, useParams } from "react-router-native";
 import { useSelector } from "react-redux";
 
 const Details = () => {
+  const movies = useSelector((state) => state.movies);
+  console.log(movies);
+  const isLoading = useSelector((state) => state.isLoading);
   const urlImages = "https://image.tmdb.org/t/p/original";
   const { id } = useParams();
-  const movies = useSelector((state) => state?.movies?.results);
   const Actualmovie = movies.filter((movies) => movies.id == id);
+
+  const randomNum = () => {
+    return Math.floor(Math.random() * 79) + 1;
+  };
+
+  const i = [randomNum(), randomNum(), randomNum()];
+  console.log(i, id, Actualmovie);
+
   return (
     <View style={styles.container}>
       <View style={styles.section1}>
@@ -44,7 +54,7 @@ const Details = () => {
       </View>
       <View style={styles.section3}>
         <Text style={styles.storyLine}>Story Line</Text>
-        <Text style={styles.storyLineText}>{Actualmovie?.[0].overview}</Text>
+        <Text style={styles.storyLineText}>{Actualmovie?.[0]?.overview}</Text>
       </View>
       <View style={styles.section4}>
         <View style={styles.titleSection}>
@@ -86,9 +96,27 @@ const Details = () => {
       </View>
       <View style={styles.section6}>
         <ScrollView horizontal>
-          <YMLMovieSuggest title={"Harry Potter 7"} rating={"5.0"} />
-          <YMLMovieSuggest title={"Harry Potter 7"} rating={"5.0"} />
-          <YMLMovieSuggest title={"Harry Potter 7"} rating={"5.0"} />
+          <Link to={`/detail/${movies[i[0]]?.id}`}>
+            <YMLMovieSuggest
+              title={movies[i[0]]?.original_title}
+              rating={"5.0"}
+              image={urlImages + movies[i[0]]?.poster_path}
+            />
+          </Link>
+          <Link to={`/detail/${movies[i[1]]?.id}`}>
+            <YMLMovieSuggest
+              title={movies[i[1]]?.original_title}
+              rating={"5.0"}
+              image={urlImages + movies[i[1]]?.poster_path}
+            />
+          </Link>
+          <Link to={`/detail/${movies[i[2]]?.id}`}>
+            <YMLMovieSuggest
+              title={movies[i[2]]?.original_title}
+              rating={"5.0"}
+              image={urlImages + movies[i[2]]?.poster_path}
+            />
+          </Link>
         </ScrollView>
       </View>
     </View>

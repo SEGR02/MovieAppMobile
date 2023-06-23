@@ -1,7 +1,7 @@
 import { View, Image, Text, StyleSheet } from "react-native";
 import { useLocation } from "react-router-native";
 
-const FoundMovie = () => {
+const FoundMovie = ({ title, image }) => {
   const location = useLocation();
   const source =
     location.pathname == "/saved"
@@ -11,14 +11,11 @@ const FoundMovie = () => {
   return (
     <View style={styles.cardFoundMovie}>
       <View style={styles.containerImage}>
-        <Image
-          style={styles.cardImage}
-          source={require("../assets/HPFound.png")}
-        />
+        <Image style={styles.cardImage} source={{ uri: image }} />
       </View>
       <View style={styles.containerCardData}>
         <View style={styles.cardData}>
-          <Text style={styles.cardTitle}>Harry Potter 7</Text>
+          <Text style={styles.cardTitle}>{title}</Text>
           <Text style={styles.cardInfo}>Eng | Fiction | 2h 10m</Text>
           <View style={styles.cardRating}>
             <Image

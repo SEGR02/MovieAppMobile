@@ -15,28 +15,64 @@ const NavBar = () => {
     <View style={styles.containerNavBar}>
       <View style={styles.navBar}>
         <Link to="/home">
-          <Image
-            style={styles.iconNavBar}
-            source={require("../assets/House.png")}
-          />
+          <View>
+            <Image
+              style={styles.iconNavBar}
+              source={
+                location.pathname == "/home"
+                  ? require("../assets/House.png")
+                  : require("../assets/home_normal.png")
+              }
+            />
+            <View
+              style={location.pathname == "/home" ? styles.point : ""}
+            ></View>
+          </View>
         </Link>
         <Link to="/search">
-          <Image
-            style={styles.iconNavBar}
-            source={require("../assets/search.png")}
-          />
+          <View>
+            <Image
+              style={styles.iconNavBar}
+              source={
+                location.pathname == "/search"
+                  ? require("../assets/search_white.png")
+                  : require("../assets/search.png")
+              }
+            />
+            <View
+              style={location.pathname == "/search" ? styles.point : ""}
+            ></View>
+          </View>
         </Link>
         <Link to="/saved">
-          <Image
-            style={styles.iconNavBar}
-            source={require("../assets/saved.png")}
-          />
+          <View>
+            <Image
+              style={styles.iconNavBar}
+              source={
+                location.pathname == "/saved"
+                  ? require("../assets/saved_white.png")
+                  : require("../assets/saved.png")
+              }
+            />
+            <View
+              style={location.pathname == "/saved" ? styles.point : ""}
+            ></View>
+          </View>
         </Link>
         <Link to="/profile">
-          <Image
-            style={[styles.iconNavBar, styles.custom]}
-            source={require("../assets/person.png")}
-          />
+          <View>
+            <Image
+              style={[styles.iconNavBar, styles.custom]}
+              source={
+                location.pathname == "/profile"
+                  ? require("../assets/user_white.png")
+                  : require("../assets/person.png")
+              }
+            />
+            <View
+              style={location.pathname == "/profile" ? styles.point : ""}
+            ></View>
+          </View>
         </Link>
       </View>
     </View>
@@ -71,6 +107,14 @@ const styles = StyleSheet.create({
   custom: {
     height: 21.5,
     width: 17,
+  },
+  point: {
+    width: 3,
+    height: 3,
+    backgroundColor: "#fff",
+    marginLeft: 8,
+    marginTop: 5,
+    borderRadius: 20,
   },
 });
 
