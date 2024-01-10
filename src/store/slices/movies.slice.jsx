@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setIsLoading } from "./isLoading.slice";
-import axios, { all } from "axios";
+import axios from "axios";
 
 export const moviesSlice = createSlice({
   name: "movies",

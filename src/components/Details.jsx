@@ -25,7 +25,6 @@ const Details = () => {
   };
 
   const i = [randomNum(), randomNum(), randomNum()];
-  console.log(i, id, Actualmovie);
 
   return (
     <View style={styles.container}>

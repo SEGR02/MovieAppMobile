@@ -22,9 +22,7 @@ const Home = () => {
   const isLoading = useSelector((state) => state.isLoading);
   const movies = useSelector((state) => state?.movies);
   const urlImages = "https://image.tmdb.org/t/p/original";
-  console.log(movies);
   const user2 = useSelector((state) => state.auth);
-  console.log(user2);
 
   useEffect(() => {
     dispatch(getAllMovies());

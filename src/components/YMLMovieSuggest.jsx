@@ -1,7 +1,6 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 
 const YMLMovieSuggest = ({ title, rating, image }) => {
-  console.log(image);
   return (
     <View style={styles.popularMovie}>
       <Image style={styles.popularImages} source={{ uri: image }} />
